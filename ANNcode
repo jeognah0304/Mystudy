@@ -33,8 +33,10 @@ data_train = rbind(data_sub1, data_sub2)
 str(data_test)
 View(data_test)
 
-nn.model = neuralnet(price_log ~ transaction_year + transaction_month + transaction_date+year_of_completion +household_count_sites + dong_count + tall_building + low_building + household_count_area + room_count + bathroom_count + parking_capacity + floor + supply_area + room + exclusive_use_area + heat_type + heat_fuel + frontdoor , data=data_train , hidden=c(2,1), linear.output= T, threshold=0.01)
 
+# We have to check the data-matrix dimension (:: Positive definite matrix)
+# Linear algebra
+nn.model = neuralnet(price_log ~ transaction_year + transaction_month +year_of_completion +household_count_sites + dong_count +household_count_area  + floor + supply_area + room + exclusive_use_area  , data=data_train , hidden=c(2,1), linear.output= T, threshold=0.01)
 
 summary(nn.model)  
 
