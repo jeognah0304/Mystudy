@@ -1,0 +1,56 @@
+
+setwd("C:\\Users\\parkjeongah\\Desktop\\working\\공모전\\fulldata")
+data_sub = read.csv(file="fulldata.csv", header=T)  
+head(data)  
+View(data)
+
+
+library(nnet)
+library(caret) 
+library(ROCR)  
+library(neuralnet)
+
+str(data)  
+
+set.seed(404)
+data_sub$sample = sample(1:10, replace=TRUE, size=nrow(data_sub))
+
+data_sub1 = data_sub[data_sub$sample==1, ]
+data_sub2 = data_sub[data_sub$sample==2, ]
+data_sub3 = data_sub[data_sub$sample==3, ]
+data_sub4 = data_sub[data_sub$sample==4, ]
+data_sub5 = data_sub[data_sub$sample==5, ]
+data_sub6 = data_sub[data_sub$sample==6, ]
+data_sub7 = data_sub[data_sub$sample==7, ]
+data_sub8 = data_sub[data_sub$sample==8, ]
+data_sub9 = data_sub[data_sub$sample==9, ]
+data_sub10 = data_sub[data_sub$sample==10, ]
+
+
+data_test = rbind(data_sub3, data_sub4, data_sub5, data_sub6, data_sub7, data_sub8, data_sub9, data_sub10)
+data_train = rbind(data_sub1, data_sub2)
+
+str(data_test)
+View(data_test)
+
+nn.model = neuralnet(price_log ~ transaction_year + transaction_month + transaction_date+year_of_completion +household_count_sites + dong_count + tall_building + low_building + household_count_area + room_count + bathroom_count + parking_capacity + floor + supply_area + room + exclusive_use_area + heat_type + heat_fuel + frontdoor , data=data_train , hidden=c(2,1), linear.output= T, threshold=0.01)
+
+
+summary(nn.model)  
+
+
+library(NeuralNetTools)
+library(devtools)
+source_url('https://gist.githubusercontent.com/Peque/41a9e20d6687f2f3108d/raw/85e14f3a292e126f1454864427e3a189c2fe33f3/nnet_plot_update.r')  
+
+nn.model$result.matrix
+plot(nn.model)
+
+
+
+
+
+# checking the importance of variables
+garson(nn.model)
+pred = compute(nn.model, data_train)
+
