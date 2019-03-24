@@ -1,0 +1,156 @@
+
+
+
+    # lm함수를 구현하자
+
+    #median regression : 절대값씌워서 회귀분석하는거
+    #regression : 최소제곱법을 이용해서 회귀분석하는거.
+
+    # 잔차제곱합은 b0 b1에 관한 함수인데, 그때 이차함수의 편미분으로 b0, b1추정함 되는거임.
+
+
+    # 설명, 예측.
+
+
+
+    N = 20 ;
+    x = rnorm(N, mean=167, sd=5)
+    y = 0.01 + 1.05*x + rnorm(N, sd=2)
+
+    Data = data.frame(x,y)    
+    print(Data)
+    
+    g0 = lm(y~x)
+    names(g0)
+
+    g0$coefficients #회귀계수
+    g0$residuals # 잔차의정의
+    g0$fitted.values # 적합값
+    
+    
+    x=172
+    x0=172
+    predict(g0, newx=x0)    
+
+    y0 = g0$coefficients[1] + g0$coefficients[2]*x0
+    summary(g0) # 유의성테스트
+
+    
+    
+    
+    x
+    y
+    
+    plot(x,y)
+    ## 회귀분석함수짜보기.
+    
+
+    
+    
+    
+    
+    newx = rnorm(N, mean=170, sd=5)
+    
+        sim.reg.fun = function(x=x,y=y, newx=NULL, plot=F){
+          
+          beta1 = sum((x-mean(x))*(y-mean(y)))/sum((x-mean(x))^2)
+          beta0 = mean(y) - beta1*mean(x)
+          
+          coef = c(beta0, beta1)
+          names(coef) = c("intercept", "slope")
+          
+          res = y-(beta0+beta1*x)
+          pred = beta0 + beta1*x
+          
+          if(!is.null(newx)) new.pred = beta0 + newx*beta1
+          
+          
+            
+          
+          SSR = sum((y-mean(y)^2))/mean(res^2)
+          SST = sum(y-mean(y))^2)
+          SSE = SST - SSR
+          R2 = ((sum((y-mean(y)^2))-mean(res^2))/(sum(y-mean(y))^2)
+          
+                
+          if(plot==T){
+            plot(x,y,main = "scatter plot" , 
+                 ylab="depedent variable", xlab="independent variable")
+            abline(a=beta0, b=beta1, col="red")
+            Ra2.lab = paste("R2=",round(R2,2),"%", sep="")
+            text(x=max(x)*0.99, y=min(y)*1.01, labels = R2.lab)   
+          if(!is.nall(newx)){
+            new.pred = beta0 + beta1*newx
+            
+          }
+        
+            ### ANOVA 입력하기.
+            n = length(y)
+            MSE = SSE / (n-2)
+            MSR = SSR / 1
+            F0 = MSR / MSE
+            alpha=0.05
+            p.value =  1 - pf(q=F0, df1=1, df2=n-2)
+            
+            c1 = c(SSR, SSE, SST)
+            c2 = c(1, n-2, n-1)
+            c3 = c(MSR, MSE , NA)
+            c4 = c(F0, NA,NA)
+            tab = cbind(c1,c2,c3,c4)
+            colnames(tab) = c("SS", "DF","MS","F")
+            rownames(tab) = c("Model","Error","Total")
+            
+            
+            tab = round(tab,2)
+            #SS = c(SSR,SSE,SST)    
+            #df = c(1, N-2, N-1)
+            #MS = SS/df[1:2]
+            #test.stat.F = MS[1]/MS[2]
+            #p_value = 
+            
+            table = cbind(SS,df,MS, c(test.stat.F,p_value))
+
+            
+          p  
+            
+          }
+        
+        
+          
+          
+          
+          if(!is.null(newx)){ new.pred = beta0 + newx*beta1}
+          
+          
+          
+          out = list(coef=coef, res=res, 
+                     pred=pred, new.pred=new.pred,
+                     R2=R2)
+          resturn(out)
+        }
+        
+        sim.reg.fun(x=x, y=y,newx=172)
+        
+        
+        
+        
+        
+        sim.reg.fun = function(x=x,y=y){
+          
+          beta1 = sum((x-mean(x))*(y-mean(y)))/sum((x-mean(x))^2)
+          beta0 = mean(y) - beta1*mean(x)
+          
+          coef = c(beta0, beta1)
+          
+          res = y-(beta0+beta1*x)
+          pred = beta0 + beta1*x
+          
+          
+          out = list(coef=coef, res=res, 
+                     pred=pred)
+          return(out)
+        }
+        
+        
+        sim.reg.fun(x=iris$Sepal.Length,y=iris$Sepal.Width)
+        
