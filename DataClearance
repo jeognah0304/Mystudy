@@ -1,0 +1,119 @@
+
+
+library(caret); library(kernlab); data(spam)
+
+str(spam)
+
+
+
+#1. Data splitting : Train 75% , Test 25%
+inTrain <- createDataPartition(y=spam$type, p=0.75, list=FALSE)
+
+training = spam[inTrain,]
+testing = spam[-inTrain,]
+
+dim(training)
+
+
+#2. Fit a Model
+set.seed(123)
+modelFit = train(type ~., data=training, method="glm")
+modelFit # shows Accuracy, Kappa
+
+
+#3. Final Model
+modelFit$finalModel
+predictions = predict(modelFit, newdata=testing)
+
+confusionMatrix(predictions, testing$type)
+
+# confusion matrix function wraps a bunch of different accuracy measures 
+# that you might want to get out when you're evaluating the model fit.
+
+
+set.seed(1235)
+modelFit2 = train(type~., data=training, method="glm")
+modelFit2
+
+
+
+
+
+
+
+#4. Plotting predictors.
+
+library(ISLR); library(ggplot2)
+data(Wage)
+summary(Wage)
+
+inTrain = createDataPartition(y=Wage$wage, p =0.7, list=FALSE)
+training = Wage[inTrain,]
+testing = Wage[-inTrain,]
+
+dim(training);dim(testing)
+
+
+#4-1 Feature Plot(caret packages)
+featurePlot(x=training[,c("age","education","jobclass")],
+            y=training$wage, plot="pairs")
+
+#4-2 Qplot (ggplot2 package)
+qplot(age,wage,data=training) # SomeThing strange => it might need grouping
+qplot(age,wage,colour=jobclass,data=training)
+
+
+qq = qplot(age, wage,colour=education, data=training)
+qq + geom_smooth(method='lm', formula=y~x)
+
+
+
+#4-3 cut2, making factors(Hmisc package)
+# Countinucous variable =>making "interval, charactor variable"
+
+library(Hmisc)
+cutWage = cut2(training$wage, g=3)
+table(cutWage)
+
+p1 = qplot(cutWage, age, data=training, fill=cutWage, geom=c("boxplot"))
+p1
+
+# Boxplots with poins overlayed
+library(gridExtra)
+
+p2 = qplot(cutWage, age, data=training, fill=cutWage, geom=c("boxplot", "jitter"))
+grid.arrange(p1,p2, ncol=2)
+
+# Boxplot doesn't show many dot's(data value).
+# So we can add the dots by using grid.arrange function.
+# Also shows interval arrange 
+
+
+
+
+
+
+
+
+
+# 4-4 Tables
+t1 = table(cutWage, training$jobclass)
+t1
+
+prop.table(t1, 1) # proportion each raw(meaning of 1)
+
+
+
+#4-5 Densiti plots
+qplot(wage, colour=education, data=training, geom="density")
+
+
+
+#caution : Make your plots onl in the training set
+# - don't use the test set for exploration!
+
+# Things you should be looking for
+# Imbalance in outcomes/predictors
+# Outliers
+# Groups of points not explanined by a predictor
+# Skewed variables.
