@@ -1,0 +1,232 @@
+  #2-1
+
+  A = matrix(c(1,0,1,0), ncol=2)
+  eigen(A)
+  
+  eigen(A)[[1]] #eigen value
+  eigen(A)[[2]] #eigen vector
+  solve(A) # inverse matrix
+  A%*%A = A # A is idempotent matrix
+  
+  #2-2
+  A = matrix(c(1,-1,2,-1,3,3,2,3,4),ncol=3)
+  B = matrix(c(3,-2,4,-2,1,0,4,0,2),ncol=3)
+  x = c(1,2,3)  
+  y = c(3,5,4)  
+
+  A+B #(a) 
+  t(A) #(b)
+  t(x)%*%A%*%y #(c)
+  t(x)%*%x #(d)
+  t(x)%*%A%*%x #(e)
+  t(x)%*%y #(f)
+  t(A)%*%A #(g)
+  A%*%B #(h)
+  t(y)%*%B #(i)  
+  x%*%t(x) #(j)
+  x+y #(k)
+  x-y
+  t(x-y)
+  x%*%t(y)  
+  A-B  
+  t(A) + t(B)  
+  t(A+B)  
+  3*x  
+  (t(x)%*%y)^2
+  B%*%A
+  rank(A)  
+  solve(A)  
+  trace(A)
+
+  
+  
+  
+  #3-4
+  x <- runif(100,0,10)
+  y <- 2 + 3*x + rnorm(100,mean=0,sd=1)  
+  plot(x,y)  
+  d = lm(y~x)  
+
+  #(a) x와 y의 상관계수를 구하시오
+  cor(x,y)
+  
+  #(b)단순선형회귀모형 Y = B0 + B1X + eps, eps ~ iid N(0, sigma^2)을 적합하시오
+  lm(y~x)
+  
+  #(c)회귀식을 산점도와 같은 평면에 그리시오
+  plot(x,y)  
+  abline(d, col="red")  
+  ?text
+  text(x=7, y=15,"y=1.89+3x", col="red")  
+  
+  # (d)H0: B1=0이 유의한지 유의수준 alpha=0.05에서 t-검정 하시오
+  summary(d)
+  # summary function shows results about Coefficients significant test 
+  
+  #(e)기울기에 대한 95% 신뢰구간을 구하시오
+  confint(d,level=0.95 )
+  
+  #(f)결정계수를 구하고 해석하시오.
+  summary(d) # R-squared is 0.9881.
+  
+  #(g) (Y-hat, e) 잔차그림을 그리고 오차의 독립성에 대해 설명하시오.
+  y
+  pred = 1.89 + 3*x
+  res = y - pred  
+  
+  plot(res, pred)  
+  # 오차의 독립성 :
+  
+  #(h) 잔차에 대한 정규 Q-Q 그림을 그리고 설명하시오.
+  qqnorm(res)
+
+  
+  #3-5 X의 단위는 100만원, Y는 %
+  x = c(28.5, 48.3, 40.2, 34.8, 50.1, 44,27.2, 37.8, 27.2, 46.1, 31.3, 50.1, 31.3, 24.8, 42.2, 23, 30.1, 36.5, 40.2, 46.1)
+  y = c(35.4, 58.2, 46.1, 45.5, 64.8, 52, 37.9, 48.2, 41.8, 54, 40.8, 61.9, 36.5, 32.7, 53.8, 24.6, 31.2, 42.6, 49.6, 56.6)
+  
+
+  #(a) 캠페인비용(X)와 선거참여비율(Y)간의 산점도를 그리시오.
+  plot(x,y)
+  
+  #(b) X와 Y간의 상관계수를 구하시오.
+  cor(x,y)
+  
+  #(c) 단순회귀모형을 적합하시오.
+  lm(y~x)
+  
+  #(d) (c)에서 구한 회귀식을 산점도와 같은 평면에 그리시오
+  plot(x,y)
+  abline(lm(y~x), col="red")
+  
+  #(e) 기울기가 유의한지 H0: B1=0 에대해 alpha=0.05(유의수준)에서 검정하시오.
+  summary(lm(y~x)) # p-value=7.41e-11 이라서 유의하다.
+  
+  #(f) 기울기에 대한 95% 신뢰구간을 구하시오.
+  confint(lm(y~x),level=0.95 )
+  
+  #(g) 결정계수를 구하고 해석하시오.
+  summary(lm(y~x)) #R-squared 0.9101 : 회귀모형으로 데이터를 약 91퍼센트 정도 설명가능하다. 
+  
+  #(h) 잔차 e를 구하고 잔차제곱합을 구하시오.
+  lm(y~x) # B0 = 2.174, B1 - 1.177
+
+  pred_y = 2.174+1.177*x   
+  res = y - pred_y  
+  SSE = sum(res^2)  
+  SSE # 잔차제곱합
+  
+  #(i) (y-hat, res) 그림을 그리고 오차의 독립성에 대해 설명하시오.
+  plot(pred_y,res)
+  
+  #(j) 잔차에 대한 정규 Q-Q 그림을 그리고 설명하시오
+  qqnorm(res)
+  
+  #(k) 캠페인 비용이 50일 때 선거참여비율을 예측하시오.
+  pred.y = 2.174+1.177*0.5
+  pred.y # 2.7625%
+  
+  
+  
+  #3.6
+  
+  install.packages("faraway");library(faraway)
+  data(stat500)
+  stat500 <- data.frame(scale(stat500))  
+  plot(final ~ midterm, stat500)  
+  abline(0,1)  
+
+  # (a)  midterm(중간고사점수)와 final(기말고사점수)의 산점도를 그리고 상관계수를 구하여라.
+  str(stat500)
+  plot(stat500$midterm, stat500$final)  
+  cor(stat500$midterm, stat500$final)  
+
+  # (b) midterm(중간고사점수)에 대한 final(기말고사)점수의 단순선형회귀식을 구하시오.
+  lm(stat500$final~stat500$midterm)
+  
+  #(c) Y절편을 0으로 한 midterm에 대한 final의 회귀직선을 구하시오.
+    beta = sum(x*y)/sum(x^2)
+    beta
+    
+    # 따라서 구하고자 하는 회귀직선 y = 1.232761x
+    
+  #(d) 중간고사점수와 기말점수의 산점도와 추정된 회귀직선(b)와 (c)를 같은 평면에 그리시오.
+    
+    plot(final ~ midterm, stat500)  
+    abline(lm(stat500$final~stat500$midterm), col="red")
+    
+    text(x=1, y=-1, "Y절편이 있는 단순선형회귀직선", col="red")
+    abline(0,1.232761, col="blue")
+    text("y = 1.232761x", col="blue", x=0,y=0.5)
+
+    #(e) (b)와 (c)에서 추정된 회귀직선의 적합도에 대해 각각 설명하시오.
+    
+    #1. Y절편이 있는 단순선형회귀직선의 MSE를 구해보면
+    y = stat500$final
+    x = stat500$midterm
+    y_pred = -3.647e-16 +  5.452e-01 * x
+    
+    MSE_1 = mean((y-y_pred)^2)
+    
+    #2. Y절편이 없는 단순선형회귀직선의 MSE를 구해보면
+    y_pred1 = 1.232761*x
+    MSE_2 = mean((y-y_pred1)^2)        
+    
+    
+    MSE_1 ; MSE_2
+    
+    # y절편이 없는 단순선형회귀직선의 MSE가 더 크므로 y절편이 추가된 단순선형회귀직선의 적합도가 더 좋다.
+    
+    
+    
+    
+    #3.7 
+    data(women)
+    women    
+    dim(women)
+    
+    #(a) Weight랑 height의 산점도를 그리고, 단순선형회귀직선을 구하여 산점도에 함께 나타내시오.
+    plot(women$weight, women$height)
+    d = lm(women$weight~women$height)
+
+    #(b) 추정된 회귀식의 적합도에 대해 설명하시오.
+    
+    #(c) 잔차에 대해 독립성, 등분산성, 정규성ㅇ르 만족하는지 잔차그림과 Q-Q 그림을 그리고 설명하시오.
+    
+    
+    
+    #3.8
+    X = c(4,6,6,8,8,8,9,9,10,12)
+    Y = c(9,10,18,20,15,17,20,22,25,30)    
+
+    #(a) 산점도를 그리고, 추정된 회귀직선을 구하여 산점도에 함께 나타내시오.
+    plot(X,Y)
+    d = lm(Y~X)    
+    abline(d, col="red")    
+    
+    #(b) 잔차의 산점도를 그리고, 단순선형회귀모형의 적용 가능성을 검토하시오. 또한 결정계수의 값을 구하고 그 의미를 설명하시오.
+    pred = -2.270 + 2.609*X
+    res = Y - pred        
+    plot(pred,res)    # 크게 패턴이 있는 것 같지 않다.
+    
+    summary(d) # R-squared 0.8497 : 단순선형회귀모형으로 데이터의 약 84.97퍼센트를 설명할 수 있다.
+    
+    #(c) H0: beta = 1.5  ;H1: beta > 1.5 . alpha=0.05에서 검정하시오.
+    4.6
+    
+    #3.9
+    Fish = 1:18
+    Y = c(2.51, 2.57, 2.43, 2.62, 2.74, 2.68, 2.83, 2.91, 2.98, 3.17, 3.05, 3.09, 3.32, 3.22, 3.29, 3.44, 3.52, 3.55)
+    X = c(rep(5,3),rep(4.8,3),rep(4.6,3),rep(4.4,3),rep(4.2,3),rep(4,3) ) 
+    
+    
+    #(a) 오염물질양(X)과 생존시간(Y) 간의 산점도를 그리시오
+    plot(X,Y)
+    #(b)  오염물질양(X)과 생존시간(Y) 간의 상관계수를 구하시오.
+    cor(X,Y)
+    #(c) 단순회귀모형 Y = B0 + B1*X + E, E~iidN(0, sigma^2)를 적합하시오.
+    lm(Y~X)
+    #(d) (c)에서 구한 회귀식을 산점도와 같은 평며에 그리시오.
+    plot(X,Y)
+    abline(lm(Y~X), col="red")    
+    #(e) 기울기가 유의한지 유의수준 alpha=0.05에서 검정하시오.
