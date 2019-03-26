@@ -1,0 +1,39 @@
+
+
+# Curve fitting in R
+
+len = 24
+x = runif(len)
+y = x^2 + rnorm(len, 0, 0.06)
+ds = data.frame(x,y)
+str(ds)
+plot(y~x, main="known cubic, with noise")
+
+s = seq(0,1, length=100)
+lines(s, s^3, lty=2, col="green")
+
+m = nls(y~I(x^power), data=ds, start=list(power=1), trace=T)
+class(m)
+
+summary(m) # We can see that the estimated power is 2.057(+-)0.1102
+
+power <- round(summary(m)$coefficients[1],3)
+power.se = round(summary(m)$coefficients[2],3)
+plot(y~x, main="Fitted Power Model", sub="Blue: fit; green:known")
+
+s = seq(0,1,length=100)
+lines(s,s^3, lty=2, col="green")
+lines(s, predict(m, list(x=s)), lty=1, col="blue")
+text(0, 0.5, paste("y =x^ (", power, " +/- ", power.se, ")", sep = ""), pos = 4)
+
+
+RSS.p = sum(residuals(m)^2)
+RSS.p
+
+TSS = sum((y-mean(y))^2)
+TSS
+1 - (RSS.p/TSS) #R-squared
+
+
+
+summary(lm(y~x)) # R-squared을 비교해보았을 때, 삼차모형으로 적합시키는 것이 더 적절하다.
