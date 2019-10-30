@@ -1,13 +1,13 @@
-setwd("C:\\Users\\parkjeongah\\Desktop\\working\\°æ¿µ°øºÎ\\Business analytics")
+setwd("C:\\Users\\parkjeongah\\Desktop\\working\\ê²½ì˜ê³µë¶€\\Business analytics")
 
-# 1¹ø_ data ·Îµå
+# 1ë²ˆ_ data ë¡œë“œ
 banksalary = read.csv("banksalary.csv")
 head(banksalary)
 
-# salaryÀÇ Æ¯¼ö¹®ÀÚ¸¦ ´Ù Á¦°Å.
+# salaryì˜ íŠ¹ìˆ˜ë¬¸ìë¥¼ ë‹¤ ì œê±°.
 banksalary$Salary = gsub("[^[:alnum:][:blank:]+?&/\\-]", "", banksalary$Salary)
 banksalary$Salary = substr(banksalary$Salary,1,5)
-head(banksalary) # salary ´ÜÀ§ :´Ş·¯
+head(banksalary) # salary ë‹¨ìœ„ :ë‹¬ëŸ¬
 
 library(dplyr)
 female = banksalary %>% filter(Gender=="Female")
@@ -18,7 +18,7 @@ banksalary$YrsExper = as.numeric(banksalary$YrsExper)
 
 
 
-# 2¹ø 
+# 2ë²ˆ 
 summary(banksalary)
 str(banksalary)
 sd(banksalary$EducLev)
@@ -28,13 +28,13 @@ table(male$PCJob)
 
 
 
-# 3¹ø
+# 3ë²ˆ
 plot(banksalary$Salary, banksalary$YrsExper, main="Correlation between Salary and YrsExper", xlab="Years of Experiences", ylab="Salary",cex=1, pch=1, col="blue")
 cor(banksalary$Salary, banksalary$YrsExper)
 
 cor.test(banksalary$Salary, banksalary$YrsExper)
 
-# 4¹ø
+# 4ë²ˆ
 
 
 summary(female)
@@ -60,7 +60,7 @@ af = step(reg)
 summary(af)
 
 
-#5¹ø.
+#5ë²ˆ.
 str(banksalary)
 index=c("EducLev","JobGrade","YrsExper","Age","YrsPrior","Salary")
 num = banksalary[,index]
@@ -72,7 +72,7 @@ cor(num,y=num$Salary)
 
 
 
-# 6¹ø
+# 6ë²ˆ
 
 Total_years01 = female_d$YrsExper+female_d$YrsPrior
 Total_years02 = male_d$YrsExper + male_d$YrsPrior
@@ -136,12 +136,12 @@ legend(x=0, y=70000, c("female", "male"),col=c("blue","red"), pch=c(1,1))
 
 
 
-# 7¹ø
+# 7ë²ˆ
 
 head(banksalary)
-Çü
+í˜•
 
-# y = ¿¬¼ÓÇü, xº¯¼öÁß¿¡ ¿¬¼ÓÇü ¹üÁÖÇü ¼¯¿©ÀÖ´Â ¸ğ½À.
+# y = ì—°ì†í˜•, xë³€ìˆ˜ì¤‘ì— ì—°ì†í˜• ë²”ì£¼í˜• ì„ì—¬ìˆëŠ” ëª¨ìŠµ.
 reg.res3 = lm(Salary ~ EducLev+JobGrade+Gender+PCJob, data=banksalary)
 summary(reg.res3)
 
@@ -150,7 +150,7 @@ str(banksalary)
 banksalary$EducLev = as.factor(banksalary$EducLev)
 banksalary$JobGrade = as.factor(banksalary$JobGrade)
 
-# ¹üÁÖÇüÀÚ·áºĞ¼® y = ¿¬¼ÓÇü, xº¯¼ö ÀüºÎ ¹üÁÖÇô
+# ë²”ì£¼í˜•ìë£Œë¶„ì„ y = ì—°ì†í˜•, xë³€ìˆ˜ ì „ë¶€ ë²”ì£¼í˜€
 reg.res4 = lm(Salary ~ EducLev+JobGrade+Gender+PCJob, data=banksalary)
 summary(reg.res4)
 
@@ -170,7 +170,7 @@ t.test(Pcjob_n$Salary,Pcjob_y$Salary)
 
 
 
-# 8¹ø
+# 8ë²ˆ
 
 banksalary = banksalary %>% arrange(desc(Salary))
 head(banksalary)
@@ -178,7 +178,7 @@ head(banksalary)
 banksalary = banksalary[-c(1:5),]
 
 reg8 = lm(Salary ~ total_years + Gender, data=banksalary)
-summary(reg8) # R-squred 0.2295 ¹Û¿¡ ¾ÈµÊ.
+summary(reg8) # R-squred 0.2295 ë°–ì— ì•ˆë¨.
 
 b0 = 30981.5
 b1 = 513.5
