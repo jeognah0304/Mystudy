@@ -1,7 +1,7 @@
 
 #_________________________________________________________
   ## 0. road and exploring panel data
-  setwd("C:\\Users\\parkjeongah\\Desktop\\working\\°æ¿µ°øºÎ\\Business analytics")
+  setwd("C:\\Users\\parkjeongah\\Desktop\\working\\ê²½ì˜ê³µë¶€\\Business analytics")
   wagepan = read.csv(file="wagepan.csv", header=T)
   head(wagepan)
   coplot(lwage ~ year|nr, type="l", data=wagepan)
@@ -26,7 +26,7 @@
   #_________________________________________________________
   ## a. Estimate this equation by pooled OLS, and report the results in standard form. 
   
-  # educ variable - heterogeneity ¹®Á¦ÀÖÀ½
+  # educ variable - heterogeneity ë¬¸ì œìˆìŒ
   ols = lm(lwage ~ educ+black + hisp + exper + expersq + married + union, data=wagepan)
   summary(ols)  
   yhat = ols$fitted.values
@@ -97,7 +97,7 @@
   pwtest(ols)
   
   
-  # educ variable - heterogeneity ¹®Á¦ÀÖÀ½
+  # educ variable - heterogeneity ë¬¸ì œìˆìŒ
   ols = lm(lwage ~ educ+black + hisp + exper + expersq + married + union, data=wagepan)
   summary(ols)  
   
@@ -120,7 +120,7 @@
   fixef(fixed)
   
 
-  phtest(fixed, random) # fixed effect¸¦ ½á¾ßÇÔ.
+  phtest(fixed, random) # fixed effectë¥¼ ì¨ì•¼í•¨.
   
   
   
@@ -128,7 +128,7 @@
   #_________________________________________________________
   # Testing for time-fixed effects
   ## e. Estimate the equation by LSDV and compare the result with the fixed effects.  
-  ## e´Â ³ªÁß¿¡ ´õ Ç®±â.
+  ## eëŠ” ë‚˜ì¤‘ì— ë” í’€ê¸°.
   
   
   #e answer
@@ -212,7 +212,7 @@
   ## h. Comment on which estimation, of pooled OLS, BE, FD, fixed effects, and random effects, is best fit to this research model, with statistical results (e.g., Hausman test or F-test).
   ## testing for random effects: Breusch-Pagan agrange mutiplier(LM)
   
-  # ´Ù½Ã »õ·Ó°Ô ¿­±â ±×¸®°í º¯¼ö ´Ù ³Ö±â.
+  # ë‹¤ì‹œ ìƒˆë¡­ê²Œ ì—´ê¸° ê·¸ë¦¬ê³  ë³€ìˆ˜ ë‹¤ ë„£ê¸°.
   wagepan = read.csv(file="wagepan.csv", header=T)
   
   str(wagepan)
